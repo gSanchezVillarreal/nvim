@@ -19,23 +19,6 @@ lsp.configure('lua_ls', {
         }
     }
 })
-
-
-local cmp = require('cmp')
-local cmp_select = {behaviour = cmp.SelectBehavior.Select}
-local cmp_mappings = lsp.defaults.cmp_mappings({
-	['<C-p>'] = cmp.mapping.select_prev_item(cmp_select),
-	['<C-n>'] = cmp.mapping.select_next_item(cmp_select),
-	['<C-y>'] = cmp.mapping.confirm({ select = true }),
-	['<C-Space>'] = cmp.mapping.complete(),
-})
-cmp_mappings['<Tab>'] = nil
-cmp_mappings['<S-Tab>'] = nil
-
-lsp.setup_nvim_cmp({
-	mapping = cmp_mappings
-})
-
 lsp.set_preferences({
 	suggest_lsp_servers = false,
 	sign_icons = {
@@ -48,7 +31,7 @@ lsp.set_preferences({
 
 -- (Optional) Configure lua language server for neovim
 require('lspconfig').lua_ls.setup(lsp.nvim_lua_ls())
-
+require('lspconfig').rust_analyzer.setup({})
 lsp.on_attach(function(client, bufnr)
   local opts = {buffer = bufnr, remap = false}
 
@@ -64,9 +47,31 @@ lsp.on_attach(function(client, bufnr)
   vim.keymap.set("i", "<C-h>", function() vim.lsp.buf.signature_help() end, opts)
 end)
 
-
 lsp.setup()
+local cmp = require('cmp')
+local cmp_select = {behavior = cmp.SelectBehavior.Select}
+local cmp_action = require('lsp-zero').cmp_action()
 
+cmp.setup({
+  mapping = {
+    -- `Enter` key to confirm completion
+    ['<CR>'] = cmp.mapping.confirm({select = true}),
+    ['<C-p>'] = cmp.mapping.select_prev_item(cmp_select),
+    ['<C-n>'] = cmp.mapping.select_next_item(cmp_select),
+    -- Ctrl+Space to trigger completion menu
+    ['<C-Space>'] = cmp.mapping.complete({
+        config = {
+            sources = {
+                { name = 'nvim_lsp' },
+                { name = 'luasnip'},
+            }
+        }
+    }),
+    -- Navigate between snippet placeholder
+    ['<C-f>'] = cmp_action.luasnip_jump_forward(),
+    ['<C-b>'] = cmp_action.luasnip_jump_backward(),
+  }
+})
 vim.diagnostic.config({
 	virtual_text = true
 })
