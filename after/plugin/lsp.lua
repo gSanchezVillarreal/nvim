@@ -52,25 +52,28 @@ local cmp = require('cmp')
 local cmp_select = {behavior = cmp.SelectBehavior.Select}
 local cmp_action = require('lsp-zero').cmp_action()
 
+require('luasnip.loaders.from_vscode').lazy_load()
 cmp.setup({
-  mapping = {
+    snippet = {
+        expand = function(args)
+            require('luasnip').lsp_expand(args.body)
+        end
+    },
+    mapping = {
     -- `Enter` key to confirm completion
-    ['<CR>'] = cmp.mapping.confirm({select = true}),
+    ['<C-y>'] = cmp.mapping.confirm({select = true}),
     ['<C-p>'] = cmp.mapping.select_prev_item(cmp_select),
     ['<C-n>'] = cmp.mapping.select_next_item(cmp_select),
     -- Ctrl+Space to trigger completion menu
-    ['<C-Space>'] = cmp.mapping.complete({
-        config = {
-            sources = {
-                { name = 'nvim_lsp' },
-                { name = 'luasnip'},
-            }
-        }
-    }),
+    ['<C-Space>'] = cmp.mapping.complete(),
     -- Navigate between snippet placeholder
     ['<C-f>'] = cmp_action.luasnip_jump_forward(),
     ['<C-b>'] = cmp_action.luasnip_jump_backward(),
-  }
+    },
+    sources = cmp.config.sources({
+                { name = 'nvim_lsp' },
+                { name = 'luasnip'},
+    })
 })
 vim.diagnostic.config({
 	virtual_text = true

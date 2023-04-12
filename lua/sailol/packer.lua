@@ -26,6 +26,9 @@ return require('packer').startup(function(use)
   use {'machakann/vim-sandwich'}
   use {'windwp/nvim-autopairs'}
   use {'nvim-lualine/lualine.nvim'}
+  use {'L3MON4D3/LuaSnip'}
+  use {'saadparwaiz1/cmp_luasnip'}
+  use {'rafamadriz/friendly-snippets'}
 --lsp
   use {
 	  'VonHeikemen/lsp-zero.nvim',
