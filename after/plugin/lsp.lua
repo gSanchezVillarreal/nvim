@@ -32,6 +32,14 @@ lsp.set_preferences({
 -- (Optional) Configure lua language server for neovim
 require('lspconfig').lua_ls.setup(lsp.nvim_lua_ls())
 require('lspconfig').rust_analyzer.setup({})
+require('lspconfig').omnisharp.setup({})
+require('lspconfig').pyright.setup({})
+require('lspconfig').gdscript.setup({
+    on_attach = on_attach,
+    flags = {
+      debounce_text_changes = 150,
+    }
+})
 lsp.on_attach(function(client, bufnr)
   local opts = {buffer = bufnr, remap = false}
 

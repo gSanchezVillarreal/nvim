@@ -30,3 +30,9 @@ vim.opt.updatetime = 50
 --vim.opt.colorcolumn = "80"
 
 vim.g.mapleader = " "
+
+if vim.g.neovide then
+    -- Put anything you want to happen only in Neovide here
+    vim.g.neovide_scale_factor = 0.85
+    vim.g.neovide_transparency = 0.8
+end
