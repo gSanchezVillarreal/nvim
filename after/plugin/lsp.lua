@@ -31,9 +31,49 @@ lsp.set_preferences({
 
 -- (Optional) Configure lua language server for neovim
 require('lspconfig').lua_ls.setup(lsp.nvim_lua_ls())
+require('lspconfig').html.setup({
+    opts = {
+        settings = {
+            html = {
+                format = {
+                    templating = true,
+                    wrapLineLength = 120,
+                    wrapAttributes = "auto",
+                },
+                hover = {
+                    documentation = true,
+                    references = true,
+                },
+                suggest = {
+                    html5 = true
+                }
+            }
+        },
+    },
+    filetypes = { "htmldjango","html","templ" }
+})
+
+require('lspconfig').htmx.setup({
+    filetypes = { "htmldjango","html","templ", "javascriptreact", "typescriptreact" }
+})
+require('lspconfig').cssls.setup({})
+require('lspconfig').tailwindcss.setup({
+    cmd = { "tailwindcss-language-server", "--stdio" },
+    filetypes = {"htmldjango", "html", "css", "javascript", "javascriptreact", "typescript", "typescriptreact" },
+    root_dir = require'lspconfig'.util.root_pattern("theme/static_src/tailwind.config.js","tailwind.config.js", "tailwind.config.cjs", "tailwind.config.ts", "tailwind.config.tsx", "tailwind.config.json", "tailwind.config.yaml", "tailwind.config.yml", "tailwind.config.json5"),
+})
 require('lspconfig').rust_analyzer.setup({})
 require('lspconfig').omnisharp.setup({})
-require('lspconfig').pyright.setup({})
+require('lspconfig').clangd.setup({})
+require('lspconfig').pyright.setup({
+  settings = {
+    python = {
+      analysis = {
+        typeCheckingMode = "off"
+      }
+    }
+  }
+})
 require('lspconfig').gdscript.setup({
     on_attach = on_attach,
     flags = {

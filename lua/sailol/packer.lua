@@ -12,8 +12,9 @@ return require('packer').startup(function(use)
 	  -- optional for icon support
 	  requires = { 'nvim-tree/nvim-web-devicons' }
   }
-  use { 'sainnhe/gruvbox-material' }
 
+  
+  use { "ellisonleao/gruvbox.nvim" }
   use {
 	  'nvim-treesitter/nvim-treesitter',
 	  run = ':TSUpdate'
@@ -29,8 +30,10 @@ return require('packer').startup(function(use)
   use {'L3MON4D3/LuaSnip'}
   use {'saadparwaiz1/cmp_luasnip'}
   use {'rafamadriz/friendly-snippets'}
-  use {'https://github.com/mfussenegger/nvim-dap/'}
   use {'wakatime/vim-wakatime'}
+  use {'simrat39/rust-tools.nvim'}
+  use {'github/copilot.vim'}
+  use {'windwp/nvim-ts-autotag'}
 --lsp
   use {
 	  'VonHeikemen/lsp-zero.nvim',

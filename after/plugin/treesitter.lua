@@ -18,3 +18,10 @@ require'nvim-treesitter.configs'.setup {
     additional_vim_regex_highlighting = false,
   },
 }
+require('nvim-ts-autotag').setup({
+    opts = {
+        enable = true,
+        enable_close = true,
+        enable_close_on_slash = false
+    },
+})
